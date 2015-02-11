@@ -144,11 +144,6 @@
       var row = 0;
       var column = majorDiagonalColumnIndexAtFirstRow;
 
-      // start at passed in index in first row
-      // check for '1' value
-      // increment row and column number
-      // check if in bounds
-      // repeat
       while ((row < this.attributes.n) && (column < this.attributes.n)) {
         if (this.get(row)[column] === 1) {
           count++;
@@ -177,12 +172,29 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var count = 0;
+      var row = 0;
+      var column = minorDiagonalColumnIndexAtFirstRow;
+
+      while((row < this.attributes.n) && (column >= 0)) {
+        if (this.get(row)[column] === 1) {
+          count++;
+        }
+        row++;
+        column--;
+      }
+
+      return count > 1;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      for (var i = 0; i < this.attributes.n; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
