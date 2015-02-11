@@ -81,7 +81,6 @@
     hasRowConflictAt: function(rowIndex) {
       // check if row has more than one '1' value
       var row = this.get(rowIndex);
-      console.log(row);
       var count = 0;
       for (var i = 0; i < row.length; i++) {
         if (row[i] === 1) {
@@ -141,12 +140,34 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var count = 0;
+      var row = 0;
+      var column = majorDiagonalColumnIndexAtFirstRow;
+
+      // start at passed in index in first row
+      // check for '1' value
+      // increment row and column number
+      // check if in bounds
+      // repeat
+      while ((row < this.attributes.n) && (column < this.attributes.n)) {
+        if (this.get(row)[column] === 1) {
+          count++;
+        }
+        row++;
+        column++;
+      }
+
+      return count > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      for (var i = 0; i < this.attributes.n; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
