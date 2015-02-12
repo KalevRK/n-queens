@@ -188,19 +188,22 @@ window.countNQueensSolutions = function(n) {
   // check for open space && no conflicts
   // if so then place next queen on next row at all possible positions
   var countNQueensHelper = function(size, queensLeft, board, r, c) {
-    board.togglePiece(r,c);
+    // place queen
+    board.togglePiece(r, c);
+    // check validity
     if ((!board.hasAnyQueensConflicts()) && (!board.hasAnyQueenConflictsOn(r,c))) {
-      // check for solution
-      if (queensLeft === 1) {
-        solutionCount++;
-      } else {
-        // call countNQueensHelper on all positions in next row
-        // construct copy of board
-        for (var col = 0; col < n; col++) {
-          countNQueensHelper(size, queensLeft-1, copyBoard(board), r+1, col);
+        // check for solution
+        if (queensLeft === 1) {
+          solutionCount++;
+        } else {
+          // call countNQueensHelper on all positions in next row
+          for (var col = 0; col < n; col++) {
+            countNQueensHelper(size, queensLeft-1, board, r+1, col);
+          }
         }
-      }
     }
+    // remove queen
+    board.togglePiece(r, c);
   };
 
   for (var i = 0; i < n; i++) {
