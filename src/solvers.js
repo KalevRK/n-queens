@@ -173,6 +173,7 @@ window.countNQueensSolutions = function(n) {
 
   var solutionCount = 0;
 
+  /*
   // loop through placing queen at different starting position
   // each time, and if a valid solution is returned then increment
   // the solutionCount
@@ -185,6 +186,45 @@ window.countNQueensSolutions = function(n) {
       }
       solutionCount++;
     }
+  }
+  */
+
+ var copyBoard = function(boardToCopy) {
+  var n = boardToCopy.attributes.n;
+  var boardCopy = new Board({n: n});
+  for (var row = 0; row < n; row++) {
+    for (var col = 0; col < n; col++) {
+      if (boardToCopy.get(row)[col] === 1) {
+        boardCopy.togglePiece(row, col);
+      }
+    }
+  }
+  return boardCopy;
+ }
+
+  // recursive helper function
+  // for each valid solution found increment solutionCount
+  // place a queen at specific location
+  // check for open space && no conflicts
+  // if so then place next queen on next row at all possible positions
+  var countNQueensHelper = function(size, queensLeft, board, r, c) {
+    board.togglePiece(r,c);
+    if ((!board.hasAnyQueensConflicts()) && (!board.hasAnyQueenConflictsOn(r,c))) {
+      // check for solution
+      if (queensLeft === 1) {
+        solutionCount++;
+      } else {
+        // call countNQueensHelper on all positions in next row
+        // construct copy of board
+        for (var col = 0; col < n; col++) {
+          countNQueensHelper(size, queensLeft-1, copyBoard(board), r+1, col);
+        }
+      }
+    }
+  };
+
+  for (var i = 0; i < n; i++) {
+    countNQueensHelper(n, n, new Board({n: n}), 0, i);
   }
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
