@@ -134,12 +134,9 @@ var _placeQueen = function(size, queensLeft, board, startRow, startCol) {
     // place a queen at the first free space on the board
     for (var r = 0; r < size; r++) {
       for (var c = 0; c < size; c++) {
-        //console.log("Attempting r:" + r + " c:" + c);
-        //console.log("board.get(): " + board.get(r)[c]);
         // check for occupied space
         if (board.get(r)[c] === 0) {
           // place piece
-          //console.log("Placing piece at r:" + r + " c:" + c);
           board.get(r)[c] = 1;
           // check for row conflicts, column conflicts,
           // major diagonal conflicts, and minor diagonal conflicts
@@ -150,7 +147,6 @@ var _placeQueen = function(size, queensLeft, board, startRow, startCol) {
             return _placeQueen(size, queensLeft-1, board, startRow, startCol);
           } else {
             // remove queen from space and continue checking spaces
-            //console.log("Removing piece at r:" + r + " c:" + c);
             board.get(r)[c] = 0;
           }
         }
@@ -173,34 +169,18 @@ window.countNQueensSolutions = function(n) {
 
   var solutionCount = 0;
 
-  /*
-  // loop through placing queen at different starting position
-  // each time, and if a valid solution is returned then increment
-  // the solutionCount
-  for (var c = 0; c < n; c++) {
-    solvedBoard = _placeQueen(n, n, new Board({n: n}), 0, c);
-    if(solvedBoard !== undefined) {
-      console.log("solution #" + (solutionCount+1));
-      for (var i = 0; i < n; i++) {
-        console.log(solvedBoard.get(i));
-      }
-      solutionCount++;
-    }
-  }
-  */
-
- var copyBoard = function(boardToCopy) {
-  var n = boardToCopy.attributes.n;
-  var boardCopy = new Board({n: n});
-  for (var row = 0; row < n; row++) {
-    for (var col = 0; col < n; col++) {
-      if (boardToCopy.get(row)[col] === 1) {
-        boardCopy.togglePiece(row, col);
+  var copyBoard = function(boardToCopy) {
+    var n = boardToCopy.attributes.n;
+    var boardCopy = new Board({n: n});
+    for (var row = 0; row < n; row++) {
+      for (var col = 0; col < n; col++) {
+        if (boardToCopy.get(row)[col] === 1) {
+          boardCopy.togglePiece(row, col);
+        }
       }
     }
+    return boardCopy;
   }
-  return boardCopy;
- }
 
   // recursive helper function
   // for each valid solution found increment solutionCount
