@@ -87,12 +87,54 @@ window.countNRooksSolutions = function(n) {
 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
-window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+/* window.findNQueensSolution = function(n) {
+  var solution = [];
+
+  var newBoard = new Board({n: n});
+
+  var solvedBoard = _placeQueen(n, n, newBoard);
+
+  for (var i = 0; i < n; n++) {
+    solution.push(solvedBoard.get(i));
+  }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
+
+// helper function for recursion
+// inputs:
+//   number of queens left to place,
+//   latest version of board
+var _placeQueen = function(size, queensLeft, board) {
+// check for no queens left to place
+  if (queensLeft === 0) {
+    return board;
+  }
+
+  // place a queen at the first free space on the board
+  for (var r = 0; r < size; r++) {
+    for (var c = 0; c < size; c++) {
+
+      // check for occupied space
+      if (board.get(r)[c] === 0) {
+        // place piece
+        board.get(r)[c] = 1;
+        // check for row conflicts, column conflicts,
+        // major diagonal conflicts, and minor diagonal conflicts
+        if ((!board.hasAnyRowConflicts()) && (!board.hasAnyColConflicts()) && (!board.hasAnyMajorDiagonalConflicts()) && (!board.hasAnyMinorDiagonalConflicts())) {
+          // keep queen in place
+          // if placed without conflict then decrement # of remaining rooks
+          // to place and run function again on updated board
+          return _placeQueen(size, queensLeft-1, board);
+        } else {
+          // remove queen from space and continue checking spaces
+          board.get(r)[c] = 0;
+        }
+      }
+    }
+  }
+};*/
 
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
