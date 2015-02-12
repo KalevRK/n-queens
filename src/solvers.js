@@ -67,11 +67,18 @@ var _placeRook = function(size, rooksLeft, board) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 
-// use the _placeRook() function to find each individual solution
-// if we place the first rook in a different location each time then it should
-// find all of the valid solutions and we just keep count
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+
+  // recursive helper function
+  var findSolutionCountForN = function(count) {
+    if (count === 1) {
+      return count;
+    } else {
+      return count * findSolutionCountForN(count-1);
+    }
+  };
+
+  var solutionCount = findSolutionCountForN(n);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
