@@ -87,54 +87,85 @@ window.countNRooksSolutions = function(n) {
 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
-/* window.findNQueensSolution = function(n) {
-  var solution = [];
-
-  var newBoard = new Board({n: n});
-
-  var solvedBoard = _placeQueen(n, n, newBoard);
-
-  for (var i = 0; i < n; n++) {
-    solution.push(solvedBoard.get(i));
+ window.findNQueensSolution = function(n) {
+  if (n === 0) {
+    return [];
+  } else if (n === 1) {
+    return [[1]];
+  } else if (n === 2) {
+    return [[,],[,]];
+  } else if (n === 3) {
+    return [[,,],[,,],[,,]];
   }
 
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  var solution = [];
+
+  var solvedBoard;
+
+  for (var r = 0; r < n; r++) {
+    for (var c = 0; c < n; c++) {
+      solvedBoard = _placeQueen(n, n, new Board({n: n}), r, c);
+      console.log(solvedBoard);
+      if(solvedBoard !== undefined) {
+        console.log("Copying solution over");
+        for (var i = 0; i < n; i++) {
+          solution.push(solvedBoard.get(i));
+        }
+        console.log("solution matrix: " + solution);
+
+        console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
+        return solution;
+      }
+    }
+  }
+
+  return null;
 };
 
 // helper function for recursion
 // inputs:
 //   number of queens left to place,
 //   latest version of board
-var _placeQueen = function(size, queensLeft, board) {
-// check for no queens left to place
+var _placeQueen = function(size, queensLeft, board, startRow, startCol) {
+  // check for no queens left to place
   if (queensLeft === 0) {
+    console.log("solution found for n = " + size)
     return board;
   }
 
-  // place a queen at the first free space on the board
-  for (var r = 0; r < size; r++) {
-    for (var c = 0; c < size; c++) {
-
-      // check for occupied space
-      if (board.get(r)[c] === 0) {
-        // place piece
-        board.get(r)[c] = 1;
-        // check for row conflicts, column conflicts,
-        // major diagonal conflicts, and minor diagonal conflicts
-        if ((!board.hasAnyRowConflicts()) && (!board.hasAnyColConflicts()) && (!board.hasAnyMajorDiagonalConflicts()) && (!board.hasAnyMinorDiagonalConflicts())) {
-          // keep queen in place
-          // if placed without conflict then decrement # of remaining rooks
-          // to place and run function again on updated board
-          return _placeQueen(size, queensLeft-1, board);
-        } else {
-          // remove queen from space and continue checking spaces
-          board.get(r)[c] = 0;
+  if (queensLeft === size) {
+    console.log("1st Queen placed at r,c: " + startRow + "," + startCol);
+    board.get(startRow)[startCol] = 1;
+    return _placeQueen(size, queensLeft-1, board, startRow, startCol);
+  } else {
+    // place a queen at the first free space on the board
+    for (var r = 0; r < size; r++) {
+      for (var c = 0; c < size; c++) {
+        //console.log("Attempting r:" + r + " c:" + c);
+        //console.log("board.get(): " + board.get(r)[c]);
+        // check for occupied space
+        if (board.get(r)[c] === 0) {
+          // place piece
+          //console.log("Placing piece at r:" + r + " c:" + c);
+          board.get(r)[c] = 1;
+          // check for row conflicts, column conflicts,
+          // major diagonal conflicts, and minor diagonal conflicts
+          if ((!board.hasAnyRowConflicts()) && (!board.hasAnyColConflicts()) && (!board.hasAnyMajorDiagonalConflicts()) && (!board.hasAnyMinorDiagonalConflicts())) {
+            // keep queen in place
+            // if placed without conflict then decrement # of remaining rooks
+            // to place and run function again on updated board
+            console.log("Queen placed at r,c: " + r + "," + c);
+            return _placeQueen(size, queensLeft-1, board, startRow, startCol);
+          } else {
+            // remove queen from space and continue checking spaces
+            //console.log("Removing piece at r:" + r + " c:" + c);
+            board.get(r)[c] = 0;
+          }
         }
       }
     }
   }
-};*/
+};
 
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
