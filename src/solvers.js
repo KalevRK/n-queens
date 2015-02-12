@@ -102,17 +102,15 @@ window.countNRooksSolutions = function(n) {
 
   var solvedBoard;
 
-  for (var r = 0; r < n; r++) {
-    for (var c = 0; c < n; c++) {
-      solvedBoard = _placeQueen(n, n, new Board({n: n}), r, c);
-      if(solvedBoard !== undefined) {
-        for (var i = 0; i < n; i++) {
-          solution.push(solvedBoard.get(i));
-        }
-
-        console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-        return solution;
+  for (var c = 0; c < n; c++) {
+    solvedBoard = _placeQueen(n, n, new Board({n: n}), 0, c);
+    if(solvedBoard !== undefined) {
+      for (var i = 0; i < n; i++) {
+        solution.push(solvedBoard.get(i));
       }
+
+      console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
+      return solution;
     }
   }
 
@@ -164,7 +162,30 @@ var _placeQueen = function(size, queensLeft, board, startRow, startCol) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  // check for cases of n = 0, n = 1, n = 2, n = 3
+  if (n === 0) {
+    return 1;
+  } else if (n === 1) {
+    return 1;
+  } else if ((n === 2) || (n === 3)) {
+    return 0;
+  }
+
+  var solutionCount = 0;
+
+  // loop through placing queen at different starting position
+  // each time, and if a valid solution is returned then increment
+  // the solutionCount
+  for (var c = 0; c < n; c++) {
+    solvedBoard = _placeQueen(n, n, new Board({n: n}), 0, c);
+    if(solvedBoard !== undefined) {
+      console.log("solution #" + (solutionCount+1));
+      for (var i = 0; i < n; i++) {
+        console.log(solvedBoard.get(i));
+      }
+      solutionCount++;
+    }
+  }
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
