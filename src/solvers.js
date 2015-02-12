@@ -16,19 +16,34 @@
 window.findNRooksSolution = function(n) {
 var solution = [];
 
+
+  // create empty board of size n
+  var newBoard = new Board({n: n});
+
+  // initiate recursive helper function call on new board
+  var solvedBoard = _placeRook(n, n, newBoard);
+
+  for (var i = 0; i < n; i++) {
+    solution.push(solvedBoard.get(i));
+  }
+
+  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  return solution;
+};
+
 // helper function for recursion
 // inputs:
 //   number of rooks left to place,
 //   latest version of board
-var placeRook = function(rooksLeft, board) {
+var _placeRook = function(size, rooksLeft, board) {
   // check for no rooks left to place
   if (rooksLeft === 0) {
     return board;
   }
 
   // place a rook at the first free space on the board
-  for (var r = 0; r < n; r++) {
-    for (var c = 0; c < n; c++) {
+  for (var r = 0; r < size; r++) {
+    for (var c = 0; c < size; c++) {
 
       // check for occupied space
       if (board.get(r)[c] === 0) {
@@ -39,7 +54,7 @@ var placeRook = function(rooksLeft, board) {
           // keep rook in place
           // if placed without conflict then decrement # of remaining rooks
           // to place and run function again on updated board
-          return placeRook(rooksLeft-1, board);
+          return _placeRook(size, rooksLeft-1, board);
         } else {
           // remove rook from space and continue checking spaces
           board.get(r)[c] = 0;
@@ -49,23 +64,12 @@ var placeRook = function(rooksLeft, board) {
   }
 }
 
-  // create empty board of size n
-  var newBoard = new Board({n: n});
-
-  // initiate recursive helper function call on new board
-  var solvedBoard = placeRook(n, newBoard);
-
-  for (var i = 0; i < n; i++) {
-    solution.push(solvedBoard.get(i));
-  }
-
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return solution;
-};
-
-
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
+
+// use the _placeRook() function to find each individual solution
+// if we place the first rook in a different location each time then it should
+// find all of the valid solutions and we just keep count
 window.countNRooksSolutions = function(n) {
   var solutionCount = undefined; //fixme
 
