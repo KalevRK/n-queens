@@ -105,13 +105,10 @@ window.countNRooksSolutions = function(n) {
   for (var r = 0; r < n; r++) {
     for (var c = 0; c < n; c++) {
       solvedBoard = _placeQueen(n, n, new Board({n: n}), r, c);
-      console.log(solvedBoard);
       if(solvedBoard !== undefined) {
-        console.log("Copying solution over");
         for (var i = 0; i < n; i++) {
           solution.push(solvedBoard.get(i));
         }
-        console.log("solution matrix: " + solution);
 
         console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
         return solution;
@@ -129,12 +126,10 @@ window.countNRooksSolutions = function(n) {
 var _placeQueen = function(size, queensLeft, board, startRow, startCol) {
   // check for no queens left to place
   if (queensLeft === 0) {
-    console.log("solution found for n = " + size)
     return board;
   }
 
   if (queensLeft === size) {
-    console.log("1st Queen placed at r,c: " + startRow + "," + startCol);
     board.get(startRow)[startCol] = 1;
     return _placeQueen(size, queensLeft-1, board, startRow, startCol);
   } else {
@@ -154,7 +149,6 @@ var _placeQueen = function(size, queensLeft, board, startRow, startCol) {
             // keep queen in place
             // if placed without conflict then decrement # of remaining rooks
             // to place and run function again on updated board
-            console.log("Queen placed at r,c: " + r + "," + c);
             return _placeQueen(size, queensLeft-1, board, startRow, startCol);
           } else {
             // remove queen from space and continue checking spaces
