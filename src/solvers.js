@@ -191,7 +191,7 @@ window.countNQueensSolutions = function(n) {
     // place queen
     board.togglePiece(r, c);
     // check validity
-    if ((!board.hasAnyQueensConflicts()) && (!board.hasAnyQueenConflictsOn(r,c))) {
+    if (!board.hasAnyQueenConflictsOn(r,c)) {
         // check for solution
         if (queensLeft === 1) {
           solutionCount++;
